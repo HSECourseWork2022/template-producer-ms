@@ -1,0 +1,62 @@
+version: "3.9"
+
+networks:
+  app-tier:
+    driver: bridge
+services:
+  template_preloader:
+    container_name: template_preloader
+    build:
+      dockerfile: Dockerfile
+      context: .
+    networks:
+      - app-tier
+    environment:
+      - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
+      - SPRING_KAFKA_CONSUMER_GROUP-ID=template-preloaders
+      - FILTERED_TOPIC=filtered.template
+      - LOADER_TOPIC=loader.template
+    depends_on:
+      - kafka
+
+  zookeeper:
+    container_name: zookeeper
+    image: "bitnami/zookeeper:latest"
+    networks:
+      - app-tier
+    ports:
+      - "2181:2181"
+    environment:
+      ALLOW_ANONYMOUS_LOGIN: "yes"
+
+  kafka:
+    container_name: kafka
+    image: "bitnami/kafka:latest"
+    networks:
+      - app-tier
+    ports:
+      - "9093:9093"
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    depends_on:
+      - zookeeper
+
+  kafka-ui:
+    container_name: kafka-ui
+    image: "provectuslabs/kafka-ui"
+    networks:
+      - app-tier
+    ports:
+      - "8080:8080"
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=kafka
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    restart: always
+    depends_on:
+      - kafka
