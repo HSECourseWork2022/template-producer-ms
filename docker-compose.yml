@@ -4,8 +4,8 @@ networks:
   app-tier:
     driver: bridge
 services:
-  template_preloader:
-    container_name: template_preloader
+  template_producer:
+    container_name: template_producer
     build:
       dockerfile: Dockerfile
       context: .
@@ -13,7 +13,6 @@ services:
       - app-tier
     environment:
       - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
-      - SPRING_KAFKA_CONSUMER_GROUP-ID=template-preloaders
       - FILTERED_TOPIC=filtered.template
       - LOADER_TOPIC=loader.template
     depends_on:
