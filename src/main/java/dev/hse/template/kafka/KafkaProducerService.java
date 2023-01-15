@@ -1,6 +1,6 @@
 package dev.hse.template.kafka;
 
-import dev.hse.template.pojo.TemplateMatched;
+import dev.hse.template.pojo.TemplateRaw;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +14,10 @@ public class KafkaProducerService {
 
     @Value("${loader.topic}")
     private String loaderTopic;
-    private final KafkaTemplate<String, TemplateMatched> kafkaTemplate;
+    private final KafkaTemplate<String, TemplateRaw> kafkaTemplate;
 
-    public void send(TemplateMatched templateMatched) {
+    public void send(TemplateRaw templateRaw) {
         log.info("Sending to '{}' topic", loaderTopic);
-        kafkaTemplate.send(loaderTopic, templateMatched);
+        kafkaTemplate.send(loaderTopic, templateRaw);
     }
 }
