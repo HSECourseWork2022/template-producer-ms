@@ -12,9 +12,8 @@ services:
     networks:
       - app-tier
     environment:
-      - SPRING_KAFKA_BOOTSTRAP-SERVERS=kafka:9092
-      - FILTERED_TOPIC=filtered.template
-      - LOADER_TOPIC=loader.template
+      - BOOTSTRAP_SERVERS=localhost:9093
+      - OUTGOING_TOPIC=producer.out
     depends_on:
       - kafka
 
@@ -42,6 +41,7 @@ services:
       - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
       - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
       - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
       - ALLOW_PLAINTEXT_LISTENER=yes
     depends_on:
       - zookeeper
