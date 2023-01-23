@@ -14,6 +14,6 @@ public class TemplateRaw {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "UTC+3")
     LocalDateTime timestamp;
     Long sourceId;
-    String name;
+    Long matchedId;
     Double price;
 }
