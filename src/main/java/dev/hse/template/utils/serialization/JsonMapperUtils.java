@@ -1,4 +1,4 @@
-package dev.hse.template.kafka.serialization.utils;
+package dev.hse.template.utils.serialization;
 
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;

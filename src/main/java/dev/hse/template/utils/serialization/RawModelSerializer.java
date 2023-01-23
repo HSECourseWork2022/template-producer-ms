@@ -1,13 +1,12 @@
-package dev.hse.template.kafka.serialization;
+package dev.hse.template.utils.serialization;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.json.JsonMapper;
-import dev.hse.template.kafka.serialization.utils.JsonMapperUtils;
 import dev.hse.template.pojo.TemplateRaw;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serializer;
 
-@Slf4j(topic = "[preloader][template]")
+@Slf4j(topic = "[producer][template]")
 public class RawModelSerializer implements Serializer<TemplateRaw> {
 
     private final JsonMapper mapper = JsonMapperUtils.getJsonMapper();
