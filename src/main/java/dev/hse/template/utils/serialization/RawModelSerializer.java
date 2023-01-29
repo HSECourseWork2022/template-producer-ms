@@ -6,7 +6,7 @@ import dev.hse.template.pojo.TemplateRaw;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serializer;
 
-@Slf4j(topic = "[producer][template]")
+@Slf4j(topic = "[template][producer][serializer]")
 public class RawModelSerializer implements Serializer<TemplateRaw> {
 
     private final JsonMapper mapper = JsonMapperUtils.getJsonMapper();
